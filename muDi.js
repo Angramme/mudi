@@ -257,7 +257,7 @@ class Vec{
 	}
 
 	rasterize(){
-		let Pos = this.pos.slice(); //copy
+		let Pos = this.pos.slice();
 		for(let ind = Pos.length-1; ind > 1; ind--){
 			const val = Pos[ind];
 

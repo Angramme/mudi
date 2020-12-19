@@ -1,6 +1,6 @@
 alert(`Use your mouse to rotate the box.
-When pressing space at the same time you can zoom in and out, 
-and when holding numbers on your keypad, you can rotate the box in the chosen dimension. 
+When pressing space at the same time you can zoom in and out,
+and when holding numbers on your keypad, you can rotate the box in the chosen dimension.
 (for example: press 4 and drag the mouse to rotate around the w axis)`);
 
 let ctx;
@@ -8,8 +8,13 @@ let ctx;
 window.onload = ()=>{
 	ctx = muDi.initializeCanvas()[1];
 
-	box = muDi.newBox([50,50,50,50,50],[0,0,65]);
-	
+    let ndim = Infinity;
+    do{
+        ndim = Number(window.prompt("enter number of dimensions please (smaller than 10 and bigger than 1)\n PS: I would recommend 4 to start with")) |0;
+    }while(ndim >= 10 || ndim < 2);
+
+    box = muDi.newBox(new Array(ndim).fill(50),[0,0,65]);
+
 	window.addEventListener("dragAny", e=>{
 		if(muDi.keyboard.get("Space")){
 			box.position.setDim(2, Math.max( 50, box.position.getDim(2)-e.offsetY*.5 ));
@@ -27,13 +32,13 @@ window.onload = ()=>{
 	function rotateCam(plane1, plane2, e){
 		let rotXZ = box.rotation.get(plane1)||0;
 		let rotYZ = box.rotation.get(plane2)||0;
-		
+
 		box.rotation.set(plane1,rotXZ + e.offsetX*.005);
 		box.rotation.set(plane2,rotYZ + e.offsetY*.005);
 		rotYZ = box.rotation.get(plane2);
 		box.rotation.set(plane2,rotYZ>Math.PI*.5 ? Math.PI*.5 : rotYZ<-Math.PI*.5 ? -Math.PI*.5 : rotYZ);
 	}
-	
+
 	draw();
 };
 
